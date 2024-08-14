@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todowithobs/src/models/taskModel.dart';
 
 class TaskController extends GetxController{
-  var tasks = <TaskModel>[].obs;
+  List tasks = <TaskModel>[].obs;
 
   TextEditingController taskNameController = TextEditingController();
   TextEditingController taskDescriptionController = TextEditingController();
@@ -15,8 +15,6 @@ class TaskController extends GetxController{
     _x = name;
     update();
   }
-
-  late TaskModel taskModel;
 
   @override
   void onInit() {
@@ -36,8 +34,7 @@ class TaskController extends GetxController{
   }
 
   void addTask(String taskName, String taskDescription) {
-    taskModel = TaskModel(taskName: taskName, taskDescription: taskDescription);
-    tasks.add(taskModel);
+    tasks.add(TaskModel(taskName: taskName, taskDescription: taskDescription));
     // update();
   }
 
