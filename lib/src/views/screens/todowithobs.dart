@@ -6,10 +6,10 @@ import 'package:todowithobs/src/controllers/getxController.dart';
 class TodoObs extends StatelessWidget {
   TodoObs({super.key});
 
-  TaskController taskController = Get.find<TaskController>();
-  TextEditingController taskNameController = TextEditingController();
+  final taskController = Get.find<TaskController>();
+  final taskNameController = TextEditingController();
 
-  TextEditingController taskDescriptionController = TextEditingController();
+  final taskDescriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -252,9 +252,17 @@ class TodoObs extends StatelessWidget {
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
-                                            taskController.editTask(index,taskNameController.text,taskDescriptionController.text);
-                                            print('${taskController.tasks[index].taskName}');
-                                            Get.back();
+                                            if(taskNameController.text.toString()=="" || taskDescriptionController.text.toString()==""){
+                                              Get.back();
+                                              Get.snackbar('task edit message', 'adding task details is mandatory to update!',backgroundColor: Colors.red.withOpacity(0.8),barBlur: 4,colorText: Colors.white,boxShadows: [BoxShadow(color: Colors.white.withOpacity(0.5),offset: Offset(-2,-2),blurRadius: 4,spreadRadius: 1),BoxShadow(color: Colors.grey.withOpacity(0.5),offset: Offset(2,2),blurRadius: 4,spreadRadius: 1)]);
+                                              print('adding both task details is mandatory to update!');
+                                            }else{
+                                              Get.back();
+                                              taskController.editTask(index,taskNameController.text,taskDescriptionController.text);
+                                              Get.snackbar('task edit message', 'task updated successfully!',backgroundColor: Colors.amberAccent.withOpacity(0.8),barBlur: 4,colorText: Colors.white,boxShadows: [BoxShadow(color: Colors.white.withOpacity(0.5),offset: Offset(-2,-2),blurRadius: 4,spreadRadius: 1),BoxShadow(color: Colors.grey.withOpacity(0.5),offset: Offset(2,2),blurRadius: 4,spreadRadius: 1)]);
+                                              print('${taskController.tasks[index].taskName} \n${taskController.tasks[index].taskDescription}');
+                                            }
+                                            // print('${taskController.tasks[index].taskName}');
                                           },
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors
@@ -356,8 +364,10 @@ class TodoObs extends StatelessWidget {
                                         ElevatedButton(
                                           onPressed: () {
                                             taskController.removeTask(index);
-                                            print(taskController.x);
+                                            print('task deleted successfully!');
                                             Get.back();
+                                            Get.snackbar('task delete message', 'task deleted successfully!',backgroundColor: Colors.green.withOpacity(0.8),barBlur: 4,colorText: Colors.white,boxShadows: [BoxShadow(color: Colors.white.withOpacity(0.5),offset: Offset(-2,-2),blurRadius: 4,spreadRadius: 1),BoxShadow(color: Colors.grey.withOpacity(0.5),offset: Offset(2,2),blurRadius: 4,spreadRadius: 1)]);
+                                            // print(taskController.x);
                                           },
                                           child: const Text(
                                             'Delete',
@@ -557,9 +567,31 @@ class TodoObs extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            taskController.addTask(taskNameController.text, taskDescriptionController.text);
-                            print(taskController.x);
-                            Get.back();
+                            if(taskNameController.text.toString()=="" || taskDescriptionController.text.toString()==""){
+                              Get.back();
+                              Get.snackbar(
+                                'task add message',
+                                'task details are mandatory to add task',
+                                backgroundColor: Colors.red.withOpacity(0.8),
+                                barBlur: 4,
+                                colorText: Colors.white,
+                                boxShadows: [BoxShadow(color: Colors.white.withOpacity(0.5),offset: Offset(-2,-2),blurRadius: 4,spreadRadius: 1),BoxShadow(color: Colors.grey.withOpacity(0.5),offset: Offset(2,2),blurRadius: 4,spreadRadius: 1)]
+                              );
+                              print('adding details of task is mandatory to add task to the tasklist!');
+                            }else{
+                              taskController.addTask(taskNameController.text, taskDescriptionController.text);
+                              Get.back();
+                              Get.snackbar(
+                                'task add message',
+                                'task added successfully!',
+                                backgroundColor: Colors.indigo.withOpacity(0.8),
+                                barBlur: 4,
+                                colorText: Colors.amberAccent,
+                                boxShadows: [BoxShadow(color: Colors.white.withOpacity(0.5),offset: Offset(-2,-2),blurRadius: 4,spreadRadius: 1),BoxShadow(color: Colors.grey.withOpacity(0.5),offset: Offset(2,2),blurRadius: 4,spreadRadius: 1)]
+                              );
+                              print('task name : ${taskNameController.text},\ntask description : ${taskDescriptionController.text}');
+                            }
+                            // print(taskController.x);
                           },
                           child: const Text('Add',
                               style: TextStyle(
